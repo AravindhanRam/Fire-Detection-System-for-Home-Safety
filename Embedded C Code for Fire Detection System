@@ -1,0 +1,28 @@
+// Pin Definitions
+#define FIRE_SENSOR_PIN 2    // Digital input from fire sensor
+#define PUMP_RELAY_PIN  8    // Digital output to relay controlling water pump
+
+void setup() {
+    pinMode(FIRE_SENSOR_PIN, INPUT);
+    pinMode(PUMP_RELAY_PIN, OUTPUT);
+    digitalWrite(PUMP_RELAY_PIN, LOW); // Ensure pump is OFF at start
+
+    Serial.begin(9600);
+    Serial.println("Fire Detection System Initialized");
+}
+
+void loop() {
+    int fireStatus = digitalRead(FIRE_SENSOR_PIN);
+
+    if (fireStatus == LOW) {  
+        // Fire detected
+        Serial.println("Fire Detected! Activating Pump...");
+        digitalWrite(PUMP_RELAY_PIN, HIGH); // Turn ON pump
+    } else {
+        // No fire
+        Serial.println("No Fire. Pump OFF.");
+        digitalWrite(PUMP_RELAY_PIN, LOW);  // Turn OFF pump
+    }
+
+    delay(500); // small delay to avoid serial flooding
+}
